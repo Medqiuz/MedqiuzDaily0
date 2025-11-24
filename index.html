@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Parasitology Examination Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #1a2a6c;
+            --secondary: #b21f1f;
+            --accent: #fdbb2d;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: #f0f0f0;
+            font-weight: 300;
+        }
+
+        .portal-description {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .user-info {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.2);
+            outline: none;
+        }
+
+        .exam-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .exam-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .exam-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .card-body {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-description {
+            margin-bottom: 20px;
+            color: #555;
+            flex-grow: 1;
+        }
+
+        .card-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: #0d1a4d;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-start {
+            background: var(--secondary);
+        }
+
+        .btn-start:hover {
+            background: #8a1919;
+        }
+
+        .btn-disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .btn-disabled:hover {
+            background: #5a6268;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .instructions {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .instructions h3 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .instructions ul {
+            margin-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .important-note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+            color: #856404;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .progress-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
+            width: 0%;
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: white;
+            font-size: 0.9rem;
+            padding: 20px;
+        }
+
+        .system-requirements {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .requirement-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .requirement-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .exam-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-info, .instructions, .important-note, .progress-container, .system-requirements {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-microscope"></i> Medical Parasitology Examination Portal</h1>
+            <p class="subtitle">Comprehensive Assessment of Parasitology Knowledge</p>
+            <div class="portal-description">
+                <p>This portal provides access to the complete Medical Parasitology examination, divided into four specialized units. Each unit contains targeted questions to assess your understanding of specific parasite groups and their medical significance.</p>
+            </div>
+        </header>
+
+        <div class="user-info">
+            <h2 style="color: var(--primary); margin-bottom: 20px; text-align: center;">Student Information</h2>
+            <div class="form-group">
+                <label for="studentName"><i class="fas fa-user"></i> Full Name</label>
+                <input type="text" id="studentName" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="studentId"><i class="fas fa-id-card"></i> Student ID</label>
+                <input type="text" id="studentId" placeholder="Enter your student ID" required>
+            </div>
+            <div class="form-group">
+                <label for="studentEmail"><i class="fas fa-envelope"></i> Email Address</label>
+                <input type="text" id="studentEmail" placeholder="Enter your email address" required>
+            </div>
+            <button class="btn" id="saveInfoBtn">
+                <i class="fas fa-save"></i> Save Information
+            </button>
+        </div>
+
+        <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> Examination Instructions</h3>
+            <ul>
+                <li>Complete all four examination units to finish the comprehensive assessment.</li>
+                <li>Each unit has a time limit of 60 minutes (1 hour).</li>
+                <li>You must achieve a minimum score of 70% in each unit to pass.</li>
+                <li>Answer all questions in a unit before proceeding to the next one.</li>
+                <li>You will receive immediate feedback after selecting an answer.</li>
+                <li>Your progress will be saved automatically as you complete each unit.</li>
+                <li>Ensure you provide accurate information as it will be used for certification.</li>
+            </ul>
+        </div>
+
+        <div class="important-note">
+            <i class="fas fa-exclamation-triangle"></i> <strong>Important Notice:</strong> Please use your correct name, student ID, and email address as these will be recorded for examination records and future certification. Incorrect information may result in disqualification.
+        </div>
+
+        <div class="progress-container" id="progressContainer" style="display: none;">
+            <div class="progress-header">
+                <h3 style="color: var(--primary); margin: 0;">Your Examination Progress</h3>
+                <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="overallProgress"></div>
+            </div>
+            <div class="progress-stats">
+                <span id="completedUnits">0/4 Units Completed</span>
+                <span id="overallScore">Overall Score: 0%</span>
+            </div>
+        </div>
+
+        <div class="exam-grid">
+            <!-- Unit 1 Card -->
+            <div class="exam-card">
+                <div class="card-header">
+                    <h3>Unit 1: Introduction</h3>
+                    <p>Medical Parasitology Fundamentals</p>
+                </div>
+                <div class="card-body">
+                    <div class="card-description">
+                        <p>This unit covers the basic concepts, terminology, and classification of parasites. Understand the relationships between parasites and hosts, transmission routes, and general diagnostic approaches.</p>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <div class="stat-value">40</div>
+                            <div class="stat-label">Questions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">60</div>
+                            <div class="stat-label">Minutes</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">70%</div>
+                            <div class="stat-label">Passing</div>
+                        </div>
+                    </div>
+                    <a href="unit1.html" class="btn btn-start unit-btn" data-unit="1">
+                        <i class="fas fa-play-circle"></i> Start Unit 1
+                    </a>
+                </div>
+            </div>
+
+            <!-- Unit 2 Card -->
+            <div class="exam-card">
+                <div class="card-header">
+                    <h3>Unit 2: Trematodes</h3>
+                    <p>Flukes and Blood Parasites</p>
+                </div>
+                <div class="card-body">
+                    <div class="card-description">
+                        <p>Focus on trematodes (flukes), including Schistosoma species and other blood, liver, and intestinal flukes. Learn about their life cycles, pathogenesis, and clinical manifestations.</p>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <div class="stat-value">50</div>
+                            <div class="stat-label">Questions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">60</div>
+                            <div class="stat-label">Minutes</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">70%</div>
+                            <div class="stat-label">Passing</div>
+                        </div>
+                    </div>
+                    <a href="unit2.html" class="btn btn-disabled unit-btn" data-unit="2" id="unit2Btn">
+                        <i class="fas fa-lock"></i> Complete Unit 1 First
+                    </a>
+                </div>
+            </div>
+
+            <!-- Unit 3 Card -->
+            <div class="exam-card">
+                <div class="card-header">
+                    <h3>Unit 3: Cestodes</h3>
+                    <p>Tapeworms and Larval Forms</p>
+                </div>
+                <div class="card-body">
+                    <div class="card-description">
+                        <p>Study cestodes (tapeworms) including Taenia, Echinococcus, and Hymenolepis species. Understand their morphology, life cycles, and the diseases they cause in humans.</p>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <div class="stat-value">50</div>
+                            <div class="stat-label">Questions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">60</div>
+                            <div class="stat-label">Minutes</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">70%</div>
+                            <div class="stat-label">Passing</div>
+                        </div>
+                    </div>
+                    <a href="unit3.html" class="btn btn-disabled unit-btn" data-unit="3" id="unit3Btn">
+                        <i class="fas fa-lock"></i> Complete Unit 2 First
+                    </a>
+                </div>
+            </div>
+
+            <!-- Unit 4 Card -->
+            <div class="exam-card">
+                <div class="card-header">
+                    <h3>Unit 4: Nematodes</h3>
+                    <p>Roundworms and Tissue Parasites</p>
+                </div>
+                <div class="card-body">
+                    <div class="card-description">
+                        <p>Explore nematodes (roundworms) including intestinal and tissue-dwelling species. Learn about their diagnosis, treatment, and the pathology they cause in human hosts.</p>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <div class="stat-value">50</div>
+                            <div class="stat-label">Questions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">60</div>
+                            <div class="stat-label">Minutes</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">70%</div>
+                            <div class="stat-label">Passing</div>
+                        </div>
+                    </div>
+                    <a href="unit4.html" class="btn btn-disabled unit-btn" data-unit="4" id="unit4Btn">
+                        <i class="fas fa-lock"></i> Complete Unit 3 First
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="system-requirements">
+            <h3><i class="fas fa-laptop-medical"></i> System Requirements</h3>
+            <p>For the best examination experience, ensure your system meets these requirements:</p>
+            <div class="requirements-grid">
+
+                <div class="requirement-item">
+                    <div class="requirement-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h4>Internet Connection</h4>
+                    <p>Stable connection required</p>
+                </div>
+                <div class="requirement-item">
+                    <div class="requirement-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h4>Responsive Design</h4>
+                    <p>Works on all devices</p>
+                </div>
+                <div class="requirement-item">
+                    <div class="requirement-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>Time Commitment</h4>
+                    <p>2:30 hours for full exam</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Medical Parasitology Examination System &copy; 2023 | Department of Medical Laboratory Sciences</p>
+            <p>For technical support, contact: support@parasitology-exam.edu</p>
+        </footer>
+    </div>
+
+    <script>
+        // Save user information to localStorage
+        document.getElementById('saveInfoBtn').addEventListener('click', function() {
+            const studentName = document.getElementById('studentName').value;
+            const studentId = document.getElementById('studentId').value;
+            const studentEmail = document.getElementById('studentEmail').value;
+            
+            if (!studentName || !studentId || !studentEmail) {
+                alert('Please fill in all fields before saving.');
+                return;
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('studentName', studentName);
+            localStorage.setItem('studentId', studentId);
+            localStorage.setItem('studentEmail', studentEmail);
+            
+            // Enable Unit 1 button
+            document.querySelector('.unit-btn[data-unit="1"]').classList.remove('btn-disabled');
+            document.querySelector('.unit-btn[data-unit="1"]').classList.add('btn-start');
+            document.querySelector('.unit-btn[data-unit="1"]').innerHTML = '<i class="fas fa-play-circle"></i> Start Unit 1';
+            
+            // Show progress container
+            document.getElementById('progressContainer').style.display = 'block';
+            
+            alert('Your information has been saved. You can now start Unit 1.');
+        });
+
+        // Load saved user information if available
+        window.addEventListener('load', function() {
+            const savedName = localStorage.getItem('studentName');
+            const savedId = localStorage.getItem('studentId');
+            const savedEmail = localStorage.getItem('studentEmail');
+            
+            if (savedName) {
+                document.getElementById('studentName').value = savedName;
+            }
+            if (savedId) {
+                document.getElementById('studentId').value = savedId;
+            }
+            if (savedEmail) {
+                document.getElementById('studentEmail').value = savedEmail;
+            }
+            
+            // Check if any progress exists
+            checkProgress();
+        });
+
+        // Check and update progress
+        function checkProgress() {
+            const unit1Completed = localStorage.getItem('unit1Completed');
+            const unit2Completed = localStorage.getItem('unit2Completed');
+            const unit3Completed = localStorage.getItem('unit3Completed');
+            
+            let completedUnits = 0;
+            let totalScore = 0;
+            let unitCount = 0;
+            
+            // Check each unit
+            if (unit1Completed) {
+                completedUnits++;
+                const unit1Score = localStorage.getItem('unit1Score');
+                if (unit1Score) {
+                    totalScore += parseFloat(unit1Score);
+                    unitCount++;
+                }
+                enableUnit(2);
+            }
+            
+            if (unit2Completed) {
+                completedUnits++;
+                const unit2Score = localStorage.getItem('unit2Score');
+                if (unit2Score) {
+                    totalScore += parseFloat(unit2Score);
+                    unitCount++;
+                }
+                enableUnit(3);
+            }
+            
+            if (unit3Completed) {
+                completedUnits++;
+                const unit3Score = localStorage.getItem('unit3Score');
+                if (unit3Score) {
+                    totalScore += parseFloat(unit3Score);
+                    unitCount++;
+                }
+                enableUnit(4);
+            }
+            
+            // Update progress display
+            if (completedUnits > 0) {
+                document.getElementById('progressContainer').style.display = 'block';
+                
+                const progressPercent = (completedUnits / 4) * 100;
+                document.getElementById('overallProgress').style.width = `${progressPercent}%`;
+                document.getElementById('progressPercent').textContent = `${Math.round(progressPercent)}%`;
+                document.getElementById('completedUnits').textContent = `${completedUnits}/4 Units Completed`;
+                
+                const overallScore = unitCount > 0 ? (totalScore / unitCount).toFixed(1) : 0;
+                document.getElementById('overallScore').textContent = `Overall Score: ${overallScore}%`;
+            }
+        }
+
+        // Enable a unit button
+        function enableUnit(unitNumber) {
+            const unitBtn = document.getElementById(`unit${unitNumber}Btn`);
+            if (unitBtn) {
+                unitBtn.classList.remove('btn-disabled');
+                unitBtn.classList.add('btn-start');
+                unitBtn.innerHTML = `<i class="fas fa-play-circle"></i> Start Unit ${unitNumber}`;
+            }
+        }
+
+        // Add event listeners to unit buttons
+        document.querySelectorAll('.unit-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.classList.contains('btn-disabled')) {
+                    e.preventDefault();
+                    alert('Please complete the previous unit first.');
+                } else {
+                    // Save which unit is being started
+                    const unitNumber = this.getAttribute('data-unit');
+                    localStorage.setItem('currentUnit', unitNumber);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
